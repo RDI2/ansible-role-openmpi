@@ -1,0 +1,6 @@
+---
+# defaults file for openmpi
+
+openmpi_version: 1.10.1
+openmpi_url: http://www.open-mpi.org/software/ompi/v1.10/downloads/openmpi-{{ openmpi_version }}.tar.bz2
+openmpi_prefix: /opt/openmpi/{{ openmpi_version }}

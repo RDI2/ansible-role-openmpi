@@ -1,0 +1,23 @@
+---
+# install tasks file for openmpi
+
+- name: download openmpi
+  get_url: url={{ openmpi_url }} dest=/tmp/openmpi-{{ openmpi_version }}.tar.bz2
+
+- name: extract openmpi tarball
+  unarchive: copy=no src=/tmp/openmpi-{{ openmpi_version }}.tar.bz2 dest=/tmp creates=/tmp/openmpi-{{ openmpi_version }}
+
+- name: create openmpi dorectory
+  file: path=/opt/openmpi state=directory owner=root group=root mode=0755
+
+- name: configure openmpi source
+  shell: ./configure --prefix={{ openmpi_prefix }}
+  args:
+    chdir: /tmp/openmpi-{{ openmpi_version }}
+    creates: /tmp/openmpi-{{ openmpi_version }}/config.log
+
+- name: install openmpi
+  shell: make install
+  args:
+    chdir: /tmp/openmpi-{{ openmpi_version }}
+    creates: /opt/openmpi/{{ openmpi_version }}/bin

@@ -1,0 +1,18 @@
+---
+# main tasks file for openmpi
+
+- name: install required packages
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - gcc-gfortran
+    - gcc-c++
+    - perl
+
+- name: check if already installed
+  stat: path={{ openmpi_prefix }}
+  register: openmpi_dir
+  changed_when: openmpi_dir.stat.exists == False
+
+- include: install.yml
+  when: openmpi_dir.stat.exists == False
